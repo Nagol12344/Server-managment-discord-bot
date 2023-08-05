@@ -1,0 +1,4 @@
+{
+    "bot_token": "YOURBOTTOKENHERE",
+    "allowed_users":["discord user id 1", "discord user id 2"]
+}
