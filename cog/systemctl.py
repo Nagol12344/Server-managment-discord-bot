@@ -34,5 +34,17 @@ class systemctl(discord.Cog):
         elif statusinfo.returncode == 5: embed = discord.Embed(title=f"Error", description="That service doesnt exist.")
         await ctx.followup.send(embed=embed)
 
+    @systemctl.command()
+    @option("App", description="The name of the service that you want to start")
+    async def stop(self, ctx, app: str):
+        if not configreader.check_access(ctx.author.id): 
+            await ctx.respond("You dont have access to this server, if you beleve this is a error, please conntact the system admininstator!")
+            return False
+        await ctx.response.defer()
+        statusinfo = subprocess.run(['systemctl', 'start', app])
+        if statusinfo.returncode == 0: embed = discord.Embed(title=f"Service start!", description=f"The service {app} was successfully start")
+        elif statusinfo.returncode == 5: embed = discord.Embed(title=f"Error", description="That service doesnt exist.")
+        await ctx.followup.send(embed=embed)
+
 def setup(bot):
     bot.add_cog(systemctl(bot))
