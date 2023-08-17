@@ -36,13 +36,37 @@ class systemctl(discord.Cog):
 
     @systemctl.command()
     @option("App", description="The name of the service that you want to start")
-    async def stop(self, ctx, app: str):
+    async def start(self, ctx, app: str):
         if not configreader.check_access(ctx.author.id): 
             await ctx.respond("You dont have access to this server, if you beleve this is a error, please conntact the system admininstator!")
             return False
         await ctx.response.defer()
         statusinfo = subprocess.run(['systemctl', 'start', app])
-        if statusinfo.returncode == 0: embed = discord.Embed(title=f"Service start!", description=f"The service {app} was successfully start")
+        if statusinfo.returncode == 0: embed = discord.Embed(title=f"Service started!", description=f"The service {app} was successfully start")
+        elif statusinfo.returncode == 5: embed = discord.Embed(title=f"Error", description="That service doesnt exist.")
+        await ctx.followup.send(embed=embed)
+
+    @systemctl.command()
+    @option("App", description="The name of the service that you want to start")
+    async def enable(self, ctx, app: str):
+        if not configreader.check_access(ctx.author.id): 
+            await ctx.respond("You dont have access to this server, if you beleve this is a error, please conntact the system admininstator!")
+            return False
+        await ctx.response.defer()
+        statusinfo = subprocess.run(['systemctl', 'enable', app])
+        if statusinfo.returncode == 0: embed = discord.Embed(title=f"Service Enabled!", description=f"The service {app} was successfully enabled")
+        elif statusinfo.returncode == 5: embed = discord.Embed(title=f"Error", description="That service doesnt exist.")
+        await ctx.followup.send(embed=embed)
+
+    @systemctl.command()
+    @option("App", description="The name of the service that you want to start")
+    async def disable(self, ctx, app: str):
+        if not configreader.check_access(ctx.author.id): 
+            await ctx.respond("You dont have access to this server, if you beleve this is a error, please conntact the system admininstator!")
+            return False
+        await ctx.response.defer()
+        statusinfo = subprocess.run(['systemctl', 'disable', app])
+        if statusinfo.returncode == 0: embed = discord.Embed(title=f"Service Disabled!", description=f"The service {app} was successfully disabled")
         elif statusinfo.returncode == 5: embed = discord.Embed(title=f"Error", description="That service doesnt exist.")
         await ctx.followup.send(embed=embed)
 
