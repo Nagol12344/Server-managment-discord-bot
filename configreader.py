@@ -1,6 +1,6 @@
 import json
 
-## TODO: make a class system
+
 
 def get_bot_token():
     File_object = open(r"configs/login.json", "r")
