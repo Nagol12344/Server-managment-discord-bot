@@ -13,7 +13,7 @@ async def on_ready():
 async def testslashcommands(ctx):
     await ctx.respond("Hello!")
 
-cogs = ["cog.systemctl"]
+cogs = ["systemctl", "misc"]
 
 @bot.event
 async def on_ready():
@@ -35,7 +35,7 @@ async def on_application_command_error(ctx, error):
 print("Loading cogs . . .")               # This again, no actual need, but looks in the terminal
 for cog in cogs:                          # Now, we iterate through the "cogs" list we created up there
 		try:                                  # we put up a "try" so it doesn't break the loop when one of the cogs return any error
-			bot.load_extension(cog)           # and now, we actually just load the extension
+			bot.load_extension("cog."+cog)           # and now, we actually just load the extension
 			print(cog + " was loaded.")       # and, again, for terminal's appearance sake, also it would tell you if the cogs got loaded successfully
 		except Exception as e:                # now, the "except" part, we simply reference a variable "e" as the Exception(error)
 			print(e) 
